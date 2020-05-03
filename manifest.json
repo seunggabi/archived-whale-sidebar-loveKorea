@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+
+  "name": "국민청원",
+  "description": "of the people, by the people, for the people\n작은 관심이 모이면, 큰 힘이 됩니다.",
+  "version": "1.0.0",
+
+  "icons": {
+    "128": "icon.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.president.go.kr/petitions/best"],
+      "js": [
+        "common/jquery.min.js",
+        "app.js"
+      ]
+    }
+  ],
+
+  "sidebar_action": {
+    "default_page": "https://www1.president.go.kr/petitions/best",
+    "default_icon": {
+      "128": "icon.png"
+    },
+
+    "default_title": "국민청원",
+    "use_navigation_bar": true
+  }
+}
