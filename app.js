@@ -10,10 +10,12 @@ const getParameterByName = (name, url) => {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-const scroll = () => {
+const scroll = (selector) => {
+    selector = selector || ".board.text a[href='/petitions/Step1']";
+
     try {
         const MARGIN = 10
-        const $target = $(".board.text a[href='/petitions/Step1']").parents("div")[0];
+        const $target = $(selector).parents("div")[0];
 
         const $header = $("#header")[0];
         const top = document.documentElement.scrollTop;
@@ -81,9 +83,45 @@ const prev = () => {
     $('body').append($d);
 }
 
+const agree = () => {
+    const $d = $('<div>')
+    $d.prop('style', 'position: fixed; z-index:9999; bottom: 18px; right: 45px;')
+
+    const $b = $('<button>동의하기</button>')
+    $b.prop('style', 'background-color: white; width: 100px; height: 45px;')
+    $b.click((e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        setTimeout(() => scroll('.Reply_area_write'), 1);
+        const btn = $('.Reply_area_write button');
+        btn && btn.click();
+    })
+
+    $d.append($b);
+    $('body').append($d);
+}
+
+const isMobile = (userAgent) => {
+    userAgent = userAgent || window.navigator.userAgent;
+    const device = ['iPhone', 'iPod', 'Android', 'Windows CE', 'BlackBerry', 'Symbian', 'Windows Phone', 'webOS', 'Opera Mini', 'Opera Mobi', 'POLARIS', 'IEMobile', 'lgtelecom', 'nokia', 'SonyEricsson', 'LG', 'SAMSUNG'].join('|');
+    const regexp = new RegExp(device, 'i');
+
+    return regexp.test(userAgent);
+};
+
 (function(){
-    prev();
-    navigate();
-    next();
+    if(!isMobile()) {
+        return;
+    }
+
+    if(location.href.includes("/petitions/best")) {
+        prev();
+        navigate();
+        next();
+    } else if(location.href.match(/petitions\/\d+\?/)) {
+        agree();
+    }
+
     setTimeout(scroll, 1);
 })();

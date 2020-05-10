@@ -11,7 +11,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.president.go.kr/petitions/best*"],
+      "matches": ["*://*.president.go.kr/petitions/*"],
       "js": [
         "common/jquery.min.js",
         "app.js"
